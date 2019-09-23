@@ -7,6 +7,8 @@ import {
   Field
 } from "type-graphql";
 import { hash, compare } from "bcryptjs";
+import { sign } from "jsonwebtoken";
+
 import { User } from "./entity/User";
 
 @ObjectType()
@@ -50,7 +52,15 @@ export class UserResolver {
     // login successful
 
     return {
-      accessToken: ""
+      accessToken: sign(
+        {
+          userId: user.id
+        },
+        "lksadhjfkdahfk",
+        {
+          expiresIn: "55m"
+        }
+      )
     };
   }
 
