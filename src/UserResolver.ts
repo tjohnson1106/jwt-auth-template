@@ -8,10 +8,10 @@ import {
   Ctx
 } from "type-graphql";
 import { hash, compare } from "bcryptjs";
-import { sign } from "jsonwebtoken";
 
 import { User } from "./entity/User";
 import { MyContext } from "./MyContext";
+import { createRefreshToken, createAccessToken } from "./auth";
 
 @ObjectType()
 class LoginResponse {
@@ -54,32 +54,12 @@ export class UserResolver {
     }
     // login successful
 
-    res.cookie(
-      "jid",
-      sign(
-        {
-          userId: user.id
-        },
-        "klsdjkoijiundg",
-        {
-          expiresIn: "7d"
-        }
-      ),
-      {
-        httpOnly: true
-      }
-    );
+    res.cookie("jid", createRefreshToken(user), {
+      httpOnly: true
+    });
 
     return {
-      accessToken: sign(
-        {
-          userId: user.id
-        },
-        "lksadhjfkdahfk",
-        {
-          expiresIn: "55m"
-        }
-      )
+      accessToken: createAccessToken(user)
     };
   }
 
