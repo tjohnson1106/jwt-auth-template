@@ -6,7 +6,7 @@ export const createAccessToken = (user: User) => {
     {
       userId: user.id
     },
-    "klsdjkoijiundg",
+    process.env.ACCESS_TOKEN_SECRET!,
     {
       expiresIn: "7d"
     }
@@ -18,7 +18,7 @@ export const createRefreshToken = (user: User) => {
     {
       userId: user.id
     },
-    "klsdjkoijiundg",
+    process.env.REFRESH_TOKEN_SECRET!,
     {
       expiresIn: "7d"
     }
